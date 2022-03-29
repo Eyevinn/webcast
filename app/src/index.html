@@ -2,13 +2,41 @@
 <html>
   <head>
     <title>Simple Webcast</title>
+    <link rel="stylesheet" href="https://fonts.xz.style/serve/inter.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@exampledev/new.css@1.1.2/new.min.css">
+    <link rel="stylesheet" href="https://newcss.net/theme/night.css">
     <script type="module" src="./index.ts"></script>
     <style type="text/css">
+      @font-face {
+        font-family: "LevelOne";
+        src: url("../fonts/LevelOne.woff") format('woff');
+      }
+
+      body {
+        background-color: #dddddd;
+        font-family: "LevelOne";
+      }
       header {
         text-align: center;
       }
       footer {
         text-align: center;
+        color: #222222;
+        margin: 1em;
+      }
+      footer p {
+        font-size: 0.8em;
+        font-family: Helvetica;
+        margin: 2px;
+      }
+
+      ul {
+        list-style-type: none;
+        padding: 0;
+      }
+      button {
+        border-radius: 4px;
+        font-family: "LevelOne";
       }
       .container {
         margin: 0 auto;
@@ -20,6 +48,7 @@
       }
       input {
         width: 100%;
+        margin: 4px;
       }        
       section.section-share {
         display: flex;
@@ -36,7 +65,11 @@
   <body>
     <header>
       <h1>Simple Webcast</h1>
-      <p>Press Broadcast. Copy and share link to webcast. Watch.</p>
+      <ul>
+        <li>Press Broadcast</li>
+        <li>Copy and share link to webcast</li>
+        <li>WATCH</li>
+      </ul>
     </header>
     <div class="container">
       <section class="section-ingest">
@@ -52,8 +85,8 @@
       </section>
     </div>
     <footer>
-      <p>By Eyevinn Technology AB</p>
-      <p>Simple Webcast is open source.</p>
+      <p>by Eyevinn Technology AB</p>
+      <p>Simple Webcast is <a href="https://github.com/Eyevinn/webcast">open source</a>.</p>
     </footer>
   </body>
 </html>
