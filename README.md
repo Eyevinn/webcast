@@ -23,9 +23,7 @@ To run locally:
 
 Then point your browser to http://localhost:1234
 
-To run towards production backend:
-
-Start frontend with the following environment variables set:
+To run towards production backend, start frontend with the following environment variables set:
 - `NODE_ENV=production`
 - `WHIP_ENDPOINT_URL=<whip-endpoint>`
 
