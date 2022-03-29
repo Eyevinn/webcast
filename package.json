@@ -7,9 +7,10 @@
     "start": "node dist/server.js",
     "dev": "parcel --host 0.0.0.0 app/src/index.html  app/src/watch.html --no-cache",
     "build": "tsc --project ./",
+    "postversion": "git push && git push --tags",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "author": "Eyevinn Technology AB <work@eyevinn.se>",
   "license": "MIT",
   "devDependencies": {
     "@types/node": "^17.0.23",
