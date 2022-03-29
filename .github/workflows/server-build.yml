@@ -14,8 +14,8 @@ defaults:
     shell: bash
 
 jobs:
-  deploy:
-    name: Deploy
+  buildpush:
+    name: Build and Push
     runs-on: ubuntu-latest
 
     steps:
