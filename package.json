@@ -11,6 +11,10 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Eyevinn Technology AB <work@eyevinn.se>",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Eyevinn/webcast.git"
+  },
   "license": "MIT",
   "devDependencies": {
     "@types/node": "^17.0.23",
