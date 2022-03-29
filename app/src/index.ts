@@ -12,6 +12,11 @@ function isClipboardAvailable() {
   return !!navigator.clipboard;
 }
 
+function base64encode(input: string) {
+  const buf = Buffer.from(input);
+  return buf.toString("base64");
+}
+
 window.addEventListener("DOMContentLoaded", async () => {
 
   document.querySelector<HTMLButtonElement>("#start").addEventListener("click", async () => {
@@ -35,7 +40,7 @@ window.addEventListener("DOMContentLoaded", async () => {
         const inputElement = document.querySelector<HTMLInputElement>("#share-link");
         const watchHostUrl = new URL(window.location.href);
         watchHostUrl.pathname = "/watch.html";
-        watchHostUrl.searchParams.set("locator", json.channel);
+        watchHostUrl.searchParams.set("locator", base64encode(json.channel));
         inputElement.value = watchHostUrl.href;
       }
       const shareSection = document.querySelector<HTMLTableSectionElement>("#section-share");
