@@ -2,12 +2,10 @@ import { WHIPClient } from "@eyevinn/whip-web-client";
 
 const { NODE_ENV } = process.env;
 
-let EndpointHost = "http://localhost:8000";
-let EndpointUrl = EndpointHost + "/api/v1/whip/broadcaster";
+let EndpointUrl = "http://localhost:8000/api/v1/whip/broadcaster";
 
 if (NODE_ENV !== "development") {
   EndpointUrl = process.env.WHIP_ENDPOINT_URL;
-  EndpointHost = process.env.WHIP_ENDPOINT_HOST;
 }
 
 function isClipboardAvailable() {
@@ -26,7 +24,11 @@ window.addEventListener("DOMContentLoaded", async () => {
     await client.connect();
     const resourceUri = await client.getResourceUri();
     // We should get the hostname from the resource uri but now we need to workaround it this way
-    const response = await fetch(EndpointHost + resourceUri);
+    const fullResourceUrl = new URL(EndpointUrl);
+    fullResourceUrl.pathname = resourceUri;
+    const resource = fullResourceUrl.href;
+    // END workaround
+    const response = await fetch(resource);
     if (response.ok) {
       const json = await response.json();
       if (json.channel) {
