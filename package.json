@@ -1,0 +1,24 @@
+{
+  "name": "webcast",
+  "version": "0.1.0",
+  "description": "Super-simple Webcaster",
+  "main": "index.js",
+  "scripts": {
+    "start": "node dist/server.js",
+    "dev": "parcel --host 0.0.0.0 app/src/index.html  app/src/watch.html --no-cache",
+    "build": "tsc --project ./",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^17.0.23",
+    "parcel": "^2.4.0",
+    "prettier": "^2.6.1",
+    "typescript": "^4.6.3"
+  },
+  "dependencies": {
+    "@eyevinn/whip-endpoint": "^0.2.1",
+    "@eyevinn/whip-web-client": "^0.1.2"
+  }
+}

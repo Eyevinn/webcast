@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Simple Webcast</title>
+    <script type="module" src="./index.ts"></script>
+    <style type="text/css">
+      header {
+        text-align: center;
+      }
+      footer {
+        text-align: center;
+      }
+      .container {
+        margin: 0 auto;
+        width: 80%;
+      }
+      section.section-ingest {
+        display: flex;
+        flex-direction: column;
+      }
+      input {
+        width: 100%;
+      }        
+      section.section-share {
+        display: flex;
+        flex-direction: row-reverse;
+      }
+      section.section-share-hidden {
+        display: none;
+      }
+      #webcast {
+        background: black;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Simple Webcast</h1>
+      <p>Press Broadcast. Copy and share link to webcast. Watch.</p>
+    </header>
+    <div class="container">
+      <section class="section-ingest">
+        <video id="webcast" autoplay muted></video>
+        <button id="start">Broadcast</button>
+      </section>
+      <section id="section-share" class="section-share-hidden">
+        <button id="share">Share</button>
+        <input id="share-link" type="text" readonly></input>
+      </section>
+      <section>
+        <p id="message"></p>
+      </section>
+    </div>
+    <footer>
+      <p>By Eyevinn Technology AB</p>
+      <p>Simple Webcast is open source.</p>
+    </footer>
+  </body>
+</html>
