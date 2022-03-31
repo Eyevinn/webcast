@@ -24,7 +24,7 @@
     "typescript": "^4.6.3"
   },
   "dependencies": {
-    "@eyevinn/whip-endpoint": "^0.3.4",
+    "@eyevinn/whip-endpoint": "^0.3.5",
     "@eyevinn/whip-web-client": "^0.2.0"
   }
 }
