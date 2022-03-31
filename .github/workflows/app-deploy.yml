@@ -17,6 +17,9 @@ jobs:
         run: |
           npm ci
           npm run build:app
+        env:
+          WHIP_ENDPOINT_URL: 'https://broadcaster-whip.prod.eyevinn.technology/api/v1/whip/broadcaster'
+          ICE_SERVERS: ${{ secrets.ICE_SERVERS }}
       - name: deploy to bucket
         uses: jakejarvis/s3-sync-action@v0.5.1
         with:
