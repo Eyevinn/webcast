@@ -1,6 +1,6 @@
 {
   "name": "webcast",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Super-simple Webcaster",
   "main": "index.js",
   "scripts": {
