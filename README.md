@@ -26,10 +26,11 @@ Then point your browser to http://localhost:1234
 To run towards production backend, start frontend with the following environment variables set:
 - `NODE_ENV=production`
 - `WHIP_ENDPOINT_URL=<whip-endpoint>`
+- `ICE_SERVERS=turn:eyevinn:SECRET@turn.eyevinn.technology:3478`
 
 ## Custom TURN server
 
-To specify TURN server set the environment variable `ICE_SERVERS=<turn1>,<turn2>` where `<turn1>` is on the format `turn:<username>:<credential>@<turnserver>:<port>` when starting the backend. For example: 
+To specify TURN server set the environment variable `ICE_SERVERS=<turn1>,<turn2>` where `<turn1>` is on the format `turn:<username>:<credential>@<turnserver>:<port>` when starting the frontend and backend. For example: 
 
 ```
 ICE_SERVERS=turn:eyevinn:<secret>@turn.eyevinn.technology:3478 npm start

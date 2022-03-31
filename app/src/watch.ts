@@ -5,12 +5,22 @@ function base64decode(b64: string) {
 
 export async function watch(channelUrl, video) {
   if (channelUrl) {
-    const peer = new RTCPeerConnection({
-      iceServers: [
-        {
-          urls: 'stun:stun.l.google.com:19302'
+    let iceServers: RTCIceServer[] = [{ urls: "stun:stun.l.google.com:19320" }];
+
+    if (process.env.ICE_SERVERS) {
+      iceServers = [];
+      process.env.ICE_SERVERS.split(",").forEach(server => {
+        // turn:<username>:<password>@turn.eyevinn.technology:3478
+        const m = server.match(/^turn:(\S+):(\S+)@(\S+):(\d+)/);
+        if (m) {
+          const [ _, username, credential, host, port ] = m;
+          iceServers.push({ urls: "turn:" + host + ":" + port, username: username, credential: credential });
         }
-      ]
+      });
+    }
+  
+    const peer = new RTCPeerConnection({
+      iceServers: iceServers
     });
     peer.oniceconnectionstatechange = () => console.log(`[Watch] ICE connection state: ${peer.iceConnectionState}`);
     peer.onicecandidate = async (event) => {
