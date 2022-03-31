@@ -19,7 +19,7 @@ function base64encode(input: string) {
 
 window.addEventListener("DOMContentLoaded", async () => {
 
-  let iceServers: WHIPClientIceServer[] = [{ urls: "stun:stun.l.google.com:19320" }];
+  let iceServers: WHIPClientIceServer[] = [{ urls: "stun:stun.l.google.com:19302" }];
 
   if (process.env.ICE_SERVERS) {
     iceServers = [];

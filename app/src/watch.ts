@@ -5,7 +5,7 @@ function base64decode(b64: string) {
 
 export async function watch(channelUrl, video) {
   if (channelUrl) {
-    let iceServers: RTCIceServer[] = [{ urls: "stun:stun.l.google.com:19320" }];
+    let iceServers: RTCIceServer[] = [{ urls: "stun:stun.l.google.com:19302" }];
 
     if (process.env.ICE_SERVERS) {
       iceServers = [];
