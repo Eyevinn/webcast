@@ -27,6 +27,13 @@ To run towards production backend, start frontend with the following environment
 - `NODE_ENV=production`
 - `WHIP_ENDPOINT_URL=<whip-endpoint>`
 
+## Custom TURN server
+
+To specify TURN server set the environment variable `ICE_SERVERS=<turn1>,<turn2>` where `<turn1>` is on the format `turn:<username>:<credential>@<turnserver>:<port>` when starting the backend. For example: 
+
+```
+ICE_SERVERS=turn:eyevinn:<secret>@turn.eyevinn.technology:3478 npm start
+```
 
 ## About Eyevinn Technology
 
