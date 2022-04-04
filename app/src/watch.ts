@@ -7,9 +7,9 @@ export async function watch(channelUrl, video) {
   if (channelUrl) {
     let iceServers: RTCIceServer[] = [{ urls: "stun:stun.l.google.com:19302" }];
 
-    if (process.env.ICE_SERVERS) {
+    if (process.env.BC_ICE_SERVERS) {
       iceServers = [];
-      process.env.ICE_SERVERS.split(",").forEach(server => {
+      process.env.BC_ICE_SERVERS.split(",").forEach(server => {
         // turn:<username>:<password>@turn.eyevinn.technology:3478
         const m = server.match(/^turn:(\S+):(\S+)@(\S+):(\d+)/);
         if (m) {
