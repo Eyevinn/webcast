@@ -18,37 +18,17 @@ function base64encode(input: string) {
 }
 
 window.addEventListener("DOMContentLoaded", async () => {
-
-  let iceServers: WHIPClientIceServer[] = [{ urls: "stun:stun.l.google.com:19302" }];
-
-  if (process.env.ICE_SERVERS) {
-    iceServers = [];
-    process.env.ICE_SERVERS.split(",").forEach(server => {
-      // turn:<username>:<password>@turn.eyevinn.technology:3478
-      const m = server.match(/^turn:(\S+):(\S+)@(\S+):(\d+)/);
-      if (m) {
-        const [ _, username, credential, host, port ] = m;
-        iceServers.push({ urls: "turn:" + host + ":" + port, username: username, credential: credential });
-      }
-    });
-  }
-
   document.querySelector<HTMLButtonElement>("#start").addEventListener("click", async () => {
     const videoElement = document.querySelector<HTMLVideoElement>("#webcast");
     const client = new WHIPClient({
       endpoint: EndpointUrl,
       element: videoElement,
-      opts: { iceServers: iceServers }
+      opts: { authkey: process.env.API_KEY, iceConfigFromEndpoint: true }
     });
   
     await client.connect();
     const resourceUri = await client.getResourceUri();
-    // We should get the hostname from the resource uri but now we need to workaround it this way
-    const fullResourceUrl = new URL(EndpointUrl);
-    fullResourceUrl.pathname = resourceUri;
-    const resource = fullResourceUrl.href;
-    // END workaround
-    const response = await fetch(resource);
+    const response = await fetch(resourceUri);
     if (response.ok) {
       const json = await response.json();
       if (json.channel) {
