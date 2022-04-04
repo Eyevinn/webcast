@@ -1,4 +1,4 @@
-import { WHIPClient, WHIPClientIceServer } from "@eyevinn/whip-web-client";
+import { WHIPClient, WHIPClientOptions } from "@eyevinn/whip-web-client";
 
 const { NODE_ENV } = process.env;
 
@@ -20,10 +20,16 @@ function base64encode(input: string) {
 window.addEventListener("DOMContentLoaded", async () => {
   document.querySelector<HTMLButtonElement>("#start").addEventListener("click", async () => {
     const videoElement = document.querySelector<HTMLVideoElement>("#webcast");
+    const opts: WHIPClientOptions = {};
+    if (process.env.API_KEY) {
+      opts.authkey = process.env.API_KEY;
+      opts.iceConfigFromEndpoint = true;
+    }
+    opts.debug = true;
     const client = new WHIPClient({
       endpoint: EndpointUrl,
       element: videoElement,
-      opts: { authkey: process.env.API_KEY, iceConfigFromEndpoint: true }
+      opts: opts
     });
   
     await client.connect();
