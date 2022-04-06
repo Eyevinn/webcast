@@ -28,12 +28,12 @@ window.addEventListener("DOMContentLoaded", async () => {
     opts.debug = true;
     const client = new WHIPClient({
       endpoint: EndpointUrl,
-      element: videoElement,
       opts: opts
     });
-  
-    await client.connect();
-    const resourceUri = await client.getResourceUri();
+    const mediaStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+    videoElement.srcObject = mediaStream;
+    await client.ingest(mediaStream);
+    const resourceUri = await client.getResourceUrl();
     const response = await fetch(resourceUri);
     if (response.ok) {
       const json = await response.json();
