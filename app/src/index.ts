@@ -18,21 +18,23 @@ function base64encode(input: string) {
 }
 
 window.addEventListener("DOMContentLoaded", async () => {
-  document.querySelector<HTMLButtonElement>("#start").addEventListener("click", async () => {
-    const videoElement = document.querySelector<HTMLVideoElement>("#webcast");
-    const opts: WHIPClientOptions = {};
-    if (process.env.API_KEY) {
-      opts.authkey = process.env.API_KEY;
-      opts.iceConfigFromEndpoint = true;
+  const opts: WHIPClientOptions = {};
+  const client = new WHIPClient({
+    endpoint: EndpointUrl,
+    opts: {
+      authkey: process.env.API_KEY,
+      debug: !!process.env.DEBUG,
     }
-    opts.debug = true;
-    const client = new WHIPClient({
-      endpoint: EndpointUrl,
-      opts: opts
-    });
+  });
+  await client.setIceServersFromEndpoint();
+
+  document.querySelector<HTMLButtonElement>("#start").addEventListener("click", async () => {
+    const videoElement = document.querySelector<HTMLVideoElement>("#webcast");    
     const mediaStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
     videoElement.srcObject = mediaStream;
+
     await client.ingest(mediaStream);
+    
     const resourceUri = await client.getResourceUrl();
     const response = await fetch(resourceUri);
     if (response.ok) {

@@ -24,8 +24,8 @@
     "typescript": "^4.6.3"
   },
   "dependencies": {
-    "@eyevinn/webrtc-player": "^0.2.2",
-    "@eyevinn/whip-endpoint": "^0.4.2",
-    "@eyevinn/whip-web-client": "^0.4.2"
+    "@eyevinn/webrtc-player": "^0.2.4",
+    "@eyevinn/whip-endpoint": "^0.5.2",
+    "@eyevinn/whip-web-client": "^0.5.0"
   }
 }
