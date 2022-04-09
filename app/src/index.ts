@@ -17,6 +17,17 @@ function base64encode(input: string) {
   return buf.toString("base64");
 }
 
+async function getChannelUrl(client: WHIPClient) {
+  let channelUrl: string;
+  (await client.getResourceExtensions()).forEach(link => {
+    if (link.match(/rel=urn:ietf:params:whip:eyevinn-wrtc-channel/)) {
+      channelUrl = link.split(";")[0];
+    }
+  });
+  return channelUrl;
+
+}
+
 window.addEventListener("DOMContentLoaded", async () => {
   const opts: WHIPClientOptions = {};
   const client = new WHIPClient({
@@ -34,22 +45,19 @@ window.addEventListener("DOMContentLoaded", async () => {
     videoElement.srcObject = mediaStream;
 
     await client.ingest(mediaStream);
-    
-    const resourceUri = await client.getResourceUrl();
-    const response = await fetch(resourceUri);
-    if (response.ok) {
-      const json = await response.json();
-      if (json.channel) {
-        const inputElement = document.querySelector<HTMLInputElement>("#share-link");
-        const watchHostUrl = new URL(window.location.href);
-        watchHostUrl.pathname = "/watch.html";
-        watchHostUrl.searchParams.set("locator", base64encode(json.channel));
-        inputElement.value = watchHostUrl.href;
-      }
-      const shareSection = document.querySelector<HTMLTableSectionElement>("#section-share");
-      shareSection.classList.remove("section-share-hidden");
-      shareSection.classList.add("section-share");  
+
+    const channelUrl = await getChannelUrl(client);
+
+    if (channelUrl) {
+      const inputElement = document.querySelector<HTMLInputElement>("#share-link");
+      const watchHostUrl = new URL(window.location.href);
+      watchHostUrl.pathname = "/watch.html";
+      watchHostUrl.searchParams.set("locator", base64encode(channelUrl));
+      inputElement.value = watchHostUrl.href;
     }
+    const shareSection = document.querySelector<HTMLTableSectionElement>("#section-share");
+    shareSection.classList.remove("section-share-hidden");
+    shareSection.classList.add("section-share");  
   });
 
   document.querySelector<HTMLButtonElement>("#share").addEventListener("click", async () => {
