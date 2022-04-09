@@ -21,7 +21,8 @@ async function getChannelUrl(client: WHIPClient) {
   let channelUrl: string;
   (await client.getResourceExtensions()).forEach(link => {
     if (link.match(/rel=urn:ietf:params:whip:eyevinn-wrtc-channel/)) {
-      channelUrl = link.split(";")[0];
+      const m = link.match(/<?([^>]*)>/);
+      channelUrl = m[1];
     }
   });
   return channelUrl;
