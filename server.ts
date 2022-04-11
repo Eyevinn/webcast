@@ -30,7 +30,8 @@ broadcaster.listen();
 const endpoint = new WHIPEndpoint({ 
   port: parseInt(process.env.PORT || "8000"), 
   iceServers: iceServers,
-  serverAddress: process.env.WHIP_SERVER_ADDRESS 
+  serverAddress: process.env.WHIP_SERVER_ADDRESS,
+  enabledWrtcPlugins: [ "broadcaster" ],
 });
 endpoint.registerBroadcaster(broadcaster);
 endpoint.listen();
