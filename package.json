@@ -1,6 +1,6 @@
 {
   "name": "webcast",
-  "version": "0.2.8",
+  "version": "0.2.9",
   "description": "Super-simple Webcaster",
   "scripts": {
     "start": "node dist/server.js",
