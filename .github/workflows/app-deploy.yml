@@ -15,7 +15,7 @@ jobs:
           registry-url: https://registry.npmjs.org/
       - name: build
         run: |
-          npm ci
+          npm install
           npm run build:app
         env:
           WHIP_ENDPOINT_URL: 'https://broadcaster-whip.prod.eyevinn.technology/api/v1/whip/broadcaster'
