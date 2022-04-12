@@ -59,7 +59,11 @@ window.addEventListener("DOMContentLoaded", async () => {
     }  
   });
 
-  document.querySelector<HTMLButtonElement>("#start").addEventListener("click", async () => {
+  const startButton = document.querySelector<HTMLButtonElement>("#start");
+  const stopButton = document.querySelector<HTMLButtonElement>("#stop");
+  const shareSection = document.querySelector<HTMLTableSectionElement>("#section-share");
+
+  startButton.addEventListener("click", async () => {
     const videoElement = document.querySelector<HTMLVideoElement>("#webcast");    
     const mediaStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
     videoElement.srcObject = mediaStream;
@@ -75,8 +79,19 @@ window.addEventListener("DOMContentLoaded", async () => {
       watchHostUrl.searchParams.set("locator", base64encode(channelUrl));
       inputElement.value = watchHostUrl.href;
     }
-    const shareSection = document.querySelector<HTMLTableSectionElement>("#section-share");
     shareSection.classList.toggle("hidden");
+    startButton.classList.toggle("hidden");
+    stopButton.classList.toggle("hidden");
+  });
+
+  stopButton.addEventListener("click", () => {
+    client.destroy();
+    shareSection.classList.toggle("hidden");
+    startButton.classList.toggle("hidden");
+    stopButton.classList.toggle("hidden");
+    const viewercount = document.querySelector<HTMLSpanElement>("#viewercount");
+    viewercount.parentElement?.classList.add("hidden");
+  
   });
 
   document.querySelector<HTMLButtonElement>("#share").addEventListener("click", async () => {
