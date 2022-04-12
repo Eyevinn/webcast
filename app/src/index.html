@@ -50,6 +50,9 @@
         margin: 0 auto;
         width: 80%;
       }
+      .ingest-container {
+        position: relative;
+      }
       section.section-ingest {
         display: flex;
         flex-direction: column;
@@ -58,18 +61,38 @@
         width: 100%;
         margin: 4px;
       }        
-      section.section-share {
+      .section-share {
         display: flex;
         flex-direction: row-reverse;
       }
-      section.section-share-hidden {
-        display: none;
-      }
       #webcast {
         background: black;
+        width: 100%;
+        height: 100%;
       }
       #message {
         color: #ef9d38;
+      }
+      #iconuser {
+        background: url("../icons/icon-user.svg");
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: contain;
+        width: 15px;
+        height: 15px;
+        margin-top: 2px;
+        margin-right: 4px;
+      }
+
+      .viewercount-container {
+        position: absolute;
+        display: flex;
+        top: 20px;
+        right: 20px;
+        color: #3291FF;
+      }
+      .hidden {
+        display: none;
       }
     </style>
   </head>
@@ -84,10 +107,16 @@
     </header>
     <div class="container">
       <section class="section-ingest">
-        <video id="webcast" autoplay muted playsinline></video>
+        <div class="ingest-container">
+          <video id="webcast" autoplay muted playsinline></video>
+          <div class="viewercount-container hidden">
+            <span id="iconuser"></span>
+            <span id="viewercount">0</span>
+          </div>
+        </div>
         <button id="start">Broadcast</button>
       </section>
-      <section id="section-share" class="section-share-hidden">
+      <section id="section-share" class="section-share hidden">
         <button id="share">Share</button>
         <input id="share-link" type="text" readonly></input>
       </section>

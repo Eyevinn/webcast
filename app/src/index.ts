@@ -29,6 +29,12 @@ async function getChannelUrl(client: WHIPClient) {
 
 }
 
+function updateViewerCount(count) {
+  const viewercount = document.querySelector<HTMLSpanElement>("#viewercount");
+  viewercount.textContent = count;
+  viewercount.parentElement?.classList.remove("hidden");
+}
+
 window.addEventListener("DOMContentLoaded", async () => {
   const opts: WHIPClientOptions = {};
   const client = new WHIPClient({
@@ -39,6 +45,19 @@ window.addEventListener("DOMContentLoaded", async () => {
     }
   });
   await client.setIceServersFromEndpoint();
+  client.setupBackChannel();
+  client.on("message", (message) => {
+    const json = JSON.parse(message);
+    if (!json.message && !json.message.event) {
+      return;
+    }
+    switch (json.message.event) {
+      case "viewerschange":
+        const viewers = json.message.viewercount;
+        updateViewerCount(viewers);
+        break;
+    }  
+  });
 
   document.querySelector<HTMLButtonElement>("#start").addEventListener("click", async () => {
     const videoElement = document.querySelector<HTMLVideoElement>("#webcast");    
@@ -57,8 +76,7 @@ window.addEventListener("DOMContentLoaded", async () => {
       inputElement.value = watchHostUrl.href;
     }
     const shareSection = document.querySelector<HTMLTableSectionElement>("#section-share");
-    shareSection.classList.remove("section-share-hidden");
-    shareSection.classList.add("section-share");  
+    shareSection.classList.toggle("hidden");
   });
 
   document.querySelector<HTMLButtonElement>("#share").addEventListener("click", async () => {
