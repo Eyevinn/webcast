@@ -25,7 +25,7 @@
   },
   "dependencies": {
     "@eyevinn/webrtc-player": "^0.2.5",
-    "@eyevinn/whip-endpoint": "^0.9.0",
+    "@eyevinn/whip-endpoint": "^0.10.1",
     "@eyevinn/whip-web-client": "^0.6.0"
   }
 }
