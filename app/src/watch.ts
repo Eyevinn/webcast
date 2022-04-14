@@ -1,4 +1,5 @@
-import { WebRTCPlayer } from "@eyevinn/webrtc-player";
+import WebPlayer from "@eyevinn/web-player";
+import '@eyevinn/web-player/dist/webplayer.css';
 
 function base64decode(b64: string) {
   const buf = Buffer.from(b64, "base64");
@@ -19,10 +20,12 @@ if (process.env.BC_ICE_SERVERS) {
   });
 }
 
-export async function watch(channelUrl, video) {
+export async function watch(channelUrl) {
   if (channelUrl) {
-    const player = new WebRTCPlayer({ video: video, type: "se.eyevinn.webrtc", iceServers: iceServers });
-    await player.load(new URL(channelUrl));
+    const root = document.querySelector<HTMLDivElement>('#player');
+    const player = WebPlayer(root, { castAppId: null });
+    await player.load(channelUrl);
+    player.play();
   }
 }
 
@@ -31,6 +34,6 @@ window.addEventListener("DOMContentLoaded", async () => {
   const locator = base64decode(searchParams.get("locator"));
 
   if (locator) {
-    await watch(locator, document.querySelector<HTMLVideoElement>("video"))
+    await watch(locator)
   }
 });

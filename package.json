@@ -21,10 +21,12 @@
     "buffer": "^6.0.3",
     "parcel": "^2.4.0",
     "prettier": "^2.6.1",
+    "process": "^0.11.10",
+    "stream-browserify": "^3.0.0",
     "typescript": "^4.6.3"
   },
   "dependencies": {
-    "@eyevinn/webrtc-player": "^0.2.5",
+    "@eyevinn/web-player": "^0.7.10",
     "@eyevinn/whip-endpoint": "^0.11.2",
     "@eyevinn/whip-web-client": "^0.7.0"
   }
