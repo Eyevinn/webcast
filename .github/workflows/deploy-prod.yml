@@ -4,7 +4,7 @@ on:
     types: [ "published" ]
 
 env:
-  AWS_REGION: eu-north-
+  AWS_REGION: eu-north-1
   ECR_REGISTRY: 590877988961.dkr.ecr.eu-north-1.amazonaws.com
   ECR_REPOSITORY: whip/broadcaster
   ECS_SERVICE: whip-broadcaster
@@ -15,7 +15,7 @@ env:
 defaults:
   run:
     shell: bash
-    
+
 jobs:
   deploy-app:
     runs-on: ubuntu-latest
