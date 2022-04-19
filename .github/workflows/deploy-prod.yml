@@ -1,0 +1,99 @@
+name: Build and deploy app to production
+on:
+  release:
+    types: [ "published" ]
+
+env:
+  AWS_REGION: eu-north-
+  ECR_REGISTRY: 590877988961.dkr.ecr.eu-north-1.amazonaws.com
+  ECR_REPOSITORY: whip/broadcaster
+  ECS_SERVICE: whip-broadcaster
+  ECS_CLUSTER: production
+  ECS_TASK_DEFINITION: aws/ecs/taskdef-prod.json
+  CONTAINER_NAME: whip-broadcaster
+
+defaults:
+  run:
+    shell: bash
+    
+jobs:
+  deploy-app:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 16
+          registry-url: https://registry.npmjs.org/
+      - name: build
+        run: |
+          npm install
+          npm run build:app
+        env:
+          WHIP_ENDPOINT_URL: 'https://broadcaster-whip.prod.eyevinn.technology/api/v1/whip/broadcaster'
+          API_KEY: ${{ secrets.WHIP_API_KEY }}
+          BC_ICE_SERVERS: ${{ secrets.ICE_SERVERS }}
+      - name: deploy to bucket
+        uses: jakejarvis/s3-sync-action@v0.5.1
+        with:
+          args: --follow-symlinks --delete
+        env:
+          AWS_S3_BUCKET: 'origin-webcast'
+          AWS_ACCESS_KEY_ID: ${{ secrets.S3_AWS_ACCESS_KEY_ID  }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.S3_AWS_SECRET_ACCESS_KEY }}
+          AWS_REGION: 'eu-north-1'
+          SOURCE_DIR: 'dist/'
+
+  deploy-backend:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Get the tag
+        id: get_tag
+        run: echo ::set-output name=TAG::$(echo $GITHUB_REF | cut -d / -f 3)
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.ECR_AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.ECR_AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+
+      - name: Build docker image and push to Amazon ECR
+        uses: mr-smithers-excellent/docker-build-push@v5
+        with:
+          image: ${{ env.ECR_REPOSITORY }}
+          registry: ${{ steps.login-ecr.outputs.registry }}
+          dockerfile: Dockerfile
+
+      - name: Configure AWS ECS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.ECS_AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.ECS_AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Fill in the new image ID in the Amazon ECS task definition
+        id: task-def
+        uses: aws-actions/amazon-ecs-render-task-definition@v1
+        with:
+          task-definition: ${{ env.ECS_TASK_DEFINITION }}
+          container-name: ${{ env.CONTAINER_NAME }}
+          image: ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:${{ steps.get_tag.outputs.TAG }}
+
+      - name: Deploy Amazon ECS task definition
+        uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+        with:
+          task-definition: ${{ steps.task-def.outputs.task-definition }}
+          service: ${{ env.ECS_SERVICE }}
+          cluster: ${{ env.ECS_CLUSTER }}
+          wait-for-service-stability: true
+

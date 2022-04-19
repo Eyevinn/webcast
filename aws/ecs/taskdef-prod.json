@@ -1,0 +1,76 @@
+{
+  "executionRoleArn": "arn:aws:iam::590877988961:role/ecsTaskExecutionRole",
+  "containerDefinitions": [
+    {
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "secretOptions": null,
+        "options": {
+          "awslogs-group": "/ecs/whip-broadcaster",
+          "awslogs-region": "eu-north-1",
+          "awslogs-stream-prefix": "ecs"
+        }
+      },
+      "portMappings": [
+        {
+          "hostPort": 8000,
+          "protocol": "tcp",
+          "containerPort": 8000
+        },
+        {
+          "hostPort": 8001,
+          "protocol": "tcp",
+          "containerPort": 8001
+        }
+      ],
+      "environment": [
+        {
+          "name": "API_KEY",
+          "value": "whipit!"
+        },
+        {
+          "name": "BROADCAST_EXT_PORT",
+          "value": "443"
+        },
+        {
+          "name": "BROADCAST_HOSTNAME",
+          "value": "broadcaster-wrtc.prod.eyevinn.technology"
+        },
+        {
+          "name": "EXT_PORT",
+          "value": "443"
+        },
+        {
+          "name": "ICE_SERVERS",
+          "value": "turn:eyevinn:whip@turn.eyevinn.technology:3478"
+        },
+        {
+          "name": "ICE_TRICKLE_TIMEOUT",
+          "value": "2000"
+        },
+        {
+          "name": "USE_HTTPS",
+          "value": "true"
+        },
+        {
+          "name": "WHIP_ENDPOINT_HOSTNAME",
+          "value": "broadcaster-whip.prod.eyevinn.technology"
+        }
+      ],
+      "image": "590877988961.dkr.ecr.eu-north-1.amazonaws.com/whip/broadcaster:v0.3.3",
+      "name": "whip-broadcaster"
+    }
+  ],
+  "memory": "1024",
+  "taskRoleArn": "arn:aws:iam::590877988961:role/ecsTaskExecutionRole",
+  "family": "whip-broadcaster",
+  "requiresCompatibilities": [
+    "FARGATE"
+  ],
+  "networkMode": "awsvpc",
+  "runtimePlatform": {
+    "operatingSystemFamily": "LINUX",
+    "cpuArchitecture": null
+  },
+  "cpu": "512"
+}
