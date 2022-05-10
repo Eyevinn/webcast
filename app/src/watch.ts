@@ -23,9 +23,13 @@ if (process.env.BC_ICE_SERVERS) {
 export async function watch(channelUrl) {
   if (channelUrl) {
     const root = document.querySelector<HTMLDivElement>('#player');
-    const player = WebPlayer(root, { castAppId: null });
-    await player.load(channelUrl);
-    player.play();
+    const player = WebPlayer(root, { castAppId: undefined });
+    try {
+      await player.load(channelUrl);
+      player.play();
+    } catch(err) {
+      console.error(err);
+    }
   }
 }
 
