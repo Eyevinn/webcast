@@ -1,6 +1,6 @@
 import { WHIPClient, WHIPClientOptions } from "@eyevinn/whip-web-client";
 
-const { NODE_ENV } = process.env;
+const { NODE_ENV } = process.env;
 
 let EndpointUrl = "http://localhost:8000/api/v1/whip/broadcaster";
 
