@@ -20,7 +20,7 @@ function base64encode(input: string) {
 async function getChannelUrl(client: WHIPClient) {
   let channelUrl: string;
   (await client.getResourceExtensions()).forEach(link => {
-    if (link.match(/rel=urn:ietf:params:whip:eyevinn-wrtc-channel/)) {
+    if (link.match(/rel=urn:ietf:params:whip:eyevinn-wrtc-channel/) || link.match(/rel=urn:ietf:params:whip:whpp/)) {
       const m = link.match(/<?([^>]*)>/);
       channelUrl = m[1];
     }
