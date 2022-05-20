@@ -27,7 +27,7 @@ export async function watch(channelUrl) {
     try {
       await player.load(channelUrl);
       player.play();
-    } catch(err) {
+    } catch(err) {
       console.error(err);
     }
   }
